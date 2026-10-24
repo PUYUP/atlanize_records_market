@@ -5,3 +5,15 @@
 .autoComplete_wrapper > input {
     border: 0 !important;
 }
+
+.fm-host {
+    width: 100%;
+    min-width: 0;
+    height: 600px;
+    overflow: hidden;
+}
+
+/* sembunyikan tombol pemilih mode (table/cards/panels) */
+.fm-host .wx-toolbar .wx-modes {
+    display: none !important;
+}

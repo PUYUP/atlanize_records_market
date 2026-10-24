@@ -17,6 +17,11 @@
 	import { Separator } from "#lib/components/ui/separator/index.js";
 	import { Badge } from "#lib/components/ui/badge/index.js";
 	import {
+		Filemanager,
+		Willow,
+		type IEntity,
+	} from "@svar-ui/svelte-filemanager";
+	import {
 		Database,
 		NotepadText,
 		StickyNotePlus,
@@ -51,7 +56,7 @@
 	import Tags from "svelte-tags-input";
 	import { onMount } from "svelte";
 	import { CurrencyInput } from "@canutin/svelte-currency-input";
-	``;
+
 	let price = $state<string>("");
 	let resources = $state<string[]>([]);
 	let roles = $state<string[]>([]);
@@ -166,6 +171,11 @@
 		},
 	];
 
+	const filesData: IEntity[] = [
+		{ id: "/Code", type: "folder", size: 4096, date: new Date() },
+		{ id: "/Info.txt", type: "file", size: 1000, date: new Date() },
+	];
+
 	// buka list saat input fokus (termasuk fokus lewat Tab)
 	function openListOnFocus(e: Event) {
 		if (e.target instanceof HTMLInputElement) e.target.click();
@@ -267,10 +277,18 @@
 	$effect(() => {
 		console.log(selectedRole);
 	});
+
+	// Pengaman tambahan: blokir perpindahan ke cards/panels.
+	// "search" tetap diizinkan supaya pencarian berfungsi.
+	function fileManagerInit(api: any) {
+		api.intercept("set-mode", ({ mode }: any) => {
+			if (mode === "cards" || mode === "panels") return false;
+		});
+	}
 </script>
 
 <div class="block xl:flex gap-8">
-	<div class="flex-1">
+	<div class="flex-1 min-w-0">
 		<div class="block">
 			<Accordion.Root
 				class="record-accordion gap-4"
@@ -645,7 +663,27 @@
 						</Card.Root>
 					</Accordion.Content>
 				</Accordion.Item>
-				<!-- /.research content -->
+				<!-- /.research contents -->
+
+				<Accordion.Item value="files" class="!border-b-0">
+					<Accordion.Trigger class="cursor-pointer">
+						File manager
+					</Accordion.Trigger>
+					<Accordion.Content class="px-1">
+						<div class="mt-4 overflow-visible">
+							<Willow>
+								<div class="fm-host">
+									<Filemanager
+										data={filesData}
+										mode={"table"}
+										init={fileManagerInit}
+									/>
+								</div>
+							</Willow>
+						</div>
+					</Accordion.Content>
+				</Accordion.Item>
+				<!-- /.files -->
 			</Accordion.Root>
 		</div>
 	</div>

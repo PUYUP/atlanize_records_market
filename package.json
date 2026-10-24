@@ -82,10 +82,12 @@
 		"@cartamd/plugin-anchor": "^2.2.0",
 		"@cartamd/plugin-code": "^4.2.0",
 		"@cartamd/plugin-math": "^4.3.1",
+		"@svar-ui/svelte-filemanager": "^2.6.0",
 		"@tarekraafat/autocomplete.js": "^10.2.10",
 		"carta-md": "^4.11.5",
 		"d3-scale": "^4.0.2",
 		"d3-shape": "^3.2.0",
+		"flmngr": "^2.0.19",
 		"lucide-svelte": "^1.0.1",
 		"prosekit": "^0.22.4",
 		"svelte-tags-input": "^7.0.3"
