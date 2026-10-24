@@ -1,0 +1,9 @@
+.tabs-list::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--color-gray-200);
+}

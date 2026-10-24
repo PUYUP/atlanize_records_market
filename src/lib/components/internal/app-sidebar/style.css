@@ -1,0 +1,7 @@
+.data-active\:bg-sidebar-accent:where([data-state="active"]),
+.data-active\:bg-sidebar-accent:where([data-active]:not([data-active="false"])) {
+    background-color: transparent;
+    color: var(--primary);
+    font-weight: 600;
+    --tw-ring-color: var(--primary);
+}

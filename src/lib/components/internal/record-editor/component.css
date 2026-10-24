@@ -1,0 +1,7 @@
+.autoComplete_wrapper {
+    width: 100% !important;
+}
+
+.autoComplete_wrapper > input {
+    border: 0 !important;
+}

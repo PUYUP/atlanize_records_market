@@ -1,0 +1,27 @@
+.record-accordion div[role="heading"] > button {
+    background-color: var(--accent);
+    padding: 10px;
+}
+
+.record-accordion
+    [data-accordion-content][data-state="open"]:has(
+        .svelte-tags-input-layout:focus-within
+    ) {
+    overflow: visible;
+}
+
+.record-accordion [data-accordion-content].tags-focused {
+    overflow: visible;
+}
+
+.record-accordion [data-slot="accordion-content"][data-state="open"] {
+    overflow: visible;
+}
+
+.record-accordion [data-accordion-content][data-state="open"] {
+    overflow: visible;
+}
+
+.svelte-tags-input-matchs-parent {
+    z-index: 50;
+}
