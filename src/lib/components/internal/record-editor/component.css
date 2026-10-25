@@ -9,11 +9,116 @@
 .fm-host {
     width: 100%;
     min-width: 0;
-    height: 600px;
+    height: auto;
     overflow: hidden;
 }
 
-/* sembunyikan tombol pemilih mode (table/cards/panels) */
-.fm-host .wx-toolbar .wx-modes {
+.fm-host .wx-filemanager {
+    max-width: 100%;
+}
+
+.fm-host .wx-sidebar,
+.fm-host .wx-sidebar-icon,
+.fm-host .wx-refresh-icon,
+.fm-host .wx-toolbar .wx-name,
+.fm-host .wx-toolbar .wx-modes,
+.fm-host .wx-search .wx-cards .wx-item .wx-type {
     display: none !important;
+}
+
+.fm-host .wx-content-item-fit,
+.fm-host .wx-toolbar {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.fm-host .wx-data > div + div {
+    border-top: 1px solid var(--color-neutral-200) !important;
+}
+
+.fm-host .wx-header,
+.fm-host .wx-table-box,
+.fm-host .wx-body {
+    width: 100% !important;
+}
+
+.fm-host .wx-search .wx-cards {
+    flex-direction: column;
+    padding: 0 !important;
+}
+
+.fm-host .wx-search .wx-cards .wx-item {
+    width: 100% !important;
+    height: auto !important;
+    flex-direction: row;
+    margin: 0 0 4px 0 !important;
+}
+
+.fm-host .wx-search .wx-cards .wx-item .wx-preview {
+    width: 28px;
+    flex-grow: 0;
+}
+
+.fm-host .wx-search .wx-cards .wx-item .wx-card-preview {
+    height: auto;
+}
+
+.fm-host .wx-search .wx-cards .wx-item .wx-info {
+    padding: 0 0 0 12px;
+}
+
+.fm-host .wxi-arrow-left {
+    width: 25px;
+}
+
+.fm-host .wxi-arrow-left::before,
+.fm-host .wx-toolbar .wxi-angle-left::before {
+    content: "" !important;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    /* pakai mask supaya warnanya mengikuti warna teks/tema */
+    background-color: currentColor;
+    -webkit-mask: url("/icons/undo-2.svg") center / contain no-repeat;
+    mask: url("/icons/undo-2.svg") center / contain no-repeat;
+}
+
+.fm-host .wx-toolbar .wxi-angle-left {
+    width: 28px;
+    height: 28px;
+    margin-right: 6px;
+}
+
+.fm-host .wx-breadcrumbs {
+    padding: 0 14px !important;
+}
+
+.fm-host .wx-breadcrumbs .wx-item {
+    font-size: 14px;
+}
+
+.fm-host .wx-breadcrumbs .wxi-angle-right::before {
+    content: "" !important;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    /* pakai mask supaya warnanya mengikuti warna teks/tema */
+    background-color: currentColor;
+    -webkit-mask: url("/icons/chevron-right.svg") center / contain no-repeat;
+    mask: url("/icons/chevron-right.svg") center / contain no-repeat;
+}
+
+.fm-host .wx-search-input {
+    width: 100%;
+    padding-left: 4px;
+}
+
+.fm-host .wx-search-input .wx-text {
+    border: 1px solid var(--color-neutral-200);
+    width: 100%;
+    border-radius: var(--radius-md);
+}
+
+.fm-host .wx-list .wx-scroll {
+    overflow: hidden !important;
 }

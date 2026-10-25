@@ -19,7 +19,9 @@
 	import {
 		Filemanager,
 		Willow,
+		type FilePreview,
 		type IEntity,
+		type IParsedEntity,
 	} from "@svar-ui/svelte-filemanager";
 	import {
 		Database,
@@ -56,6 +58,10 @@
 	import Tags from "svelte-tags-input";
 	import { onMount } from "svelte";
 	import { CurrencyInput } from "@canutin/svelte-currency-input";
+
+	import { Locale } from "@svar-ui/svelte-core";
+	import { en } from "@svar-ui/filemanager-locales";
+	import { en as enCore } from "@svar-ui/core-locales";
 
 	let price = $state<string>("");
 	let resources = $state<string[]>([]);
@@ -171,9 +177,50 @@
 		},
 	];
 
+	// salin locale Inggris, ubah hanya label yang Anda mau
+	const words = {
+		...enCore,
+		...en,
+		filemanager: {
+			...en.filemanager,
+			"My files": "Files",
+		},
+	};
+
 	const filesData: IEntity[] = [
 		{ id: "/Code", type: "folder", size: 4096, date: new Date() },
-		{ id: "/Info.txt", type: "file", size: 1000, date: new Date() },
+		{ id: "/Music", type: "folder", size: 4096, date: new Date() }, // <- tambahkan
+		{
+			id: "/Music/The_sounds_of_silence.png",
+			size: 6825661,
+			date: new Date(),
+			type: "file",
+		},
+		{
+			id: "/Pictures",
+			size: 907532,
+			date: new Date(2023, 11, 4, 4, 1),
+			type: "folder",
+		},
+		{
+			id: "/Pictures/Forest.jpeg",
+			size: 907532,
+			date: new Date(2023, 11, 4, 4, 1),
+			type: "file",
+		},
+		{
+			id: "/Pictures/Night_sky.jpg",
+			size: 84506,
+			date: new Date(2023, 11, 4, 4, 1),
+			type: "file",
+		},
+		{
+			id: "/Pictures/Pattern.pdf",
+			size: 124506,
+			date: new Date(2023, 11, 4, 4, 5),
+			type: "file",
+		},
+		{ id: "/Info.zip", type: "file", size: 1000, date: new Date() },
 	];
 
 	// buka list saat input fokus (termasuk fokus lewat Tab)
@@ -193,6 +240,96 @@
 			?.classList.remove("tags-focused");
 	}
 
+	// ikon yang benar-benar ada di static/icons/ (tanpa akhiran -big/-small)
+	const AVAILABLE = new Set([
+		"folder",
+		"file",
+		"zip",
+		"txt",
+		"sheet",
+		"pdf",
+		"png",
+		"jpg",
+	]);
+
+	// akhiran multi-bagian dicek lebih dulu (tar.gz dsb.)
+	const ARCHIVE_SUFFIXES = [
+		".tar.gz",
+		".tar.bz2",
+		".tar.xz",
+		".tar.zst",
+		".zip",
+		".rar",
+		".7z",
+		".tar",
+		".gz",
+		".tgz",
+		".bz2",
+		".tbz2",
+		".xz",
+		".txz",
+		".zst",
+	];
+
+	// ekstensi -> nama ikon
+	const EXT_ICON: Record<string, string> = {
+		// teks & dokumen
+		txt: "txt",
+		text: "txt",
+		md: "txt",
+		log: "txt",
+		rtf: "txt",
+		doc: "txt",
+		docx: "txt",
+		odt: "txt",
+		// spreadsheet
+		xls: "sheet",
+		xlsx: "sheet",
+		xlsm: "sheet",
+		ods: "sheet",
+		csv: "sheet",
+		tsv: "sheet",
+		// lainnya
+		pdf: "pdf",
+		png: "png",
+		jpg: "jpg",
+		jpeg: "jpg",
+	};
+
+	function iconName(id: string): string {
+		const lower = id.toLowerCase();
+
+		if (ARCHIVE_SUFFIXES.some((s) => lower.endsWith(s))) return "zip";
+
+		const base = lower.slice(lower.lastIndexOf("/") + 1);
+		const dot = base.lastIndexOf(".");
+		const ext = dot > 0 ? base.slice(dot + 1) : "";
+
+		const name = EXT_ICON[ext] ?? "file";
+		return AVAILABLE.has(name) ? name : "file";
+	}
+
+	function icons(file: FilePreview, size: "small" | "big"): string | false {
+		if (file.type === "folder") return `/icons/folder-${size}.svg`;
+		return `/icons/${iconName(String((file as any).id ?? ""))}-${size}.svg`;
+	}
+
+	// --- fallback saat berkas ikon gagal dimuat ---
+	let hostEl: HTMLDivElement;
+
+	function onIconError(e: Event) {
+		const img = e.target;
+		if (!(img instanceof HTMLImageElement)) return;
+
+		const m = img.src.match(/\/icons\/([a-z0-9-]+)-(small|big)\.svg$/i);
+		if (!m) return;
+
+		const [, name, size] = m;
+		if (name === "file" || name === "folder") return; // hindari perulangan
+
+		img.src = `/icons/file-${size}.svg`;
+	}
+
 	onMount(() => {
 		const els = document.querySelectorAll<HTMLElement>(
 			".svelte-tags-input-layout",
@@ -202,8 +339,13 @@
 			el.addEventListener("focusout", onFocusOut);
 		});
 
+		// event "error" tidak bubble, jadi harus lewat fase capture
+		hostEl.addEventListener("error", onIconError, true);
+
 		// cleanup
 		return () => {
+			hostEl.removeEventListener("error", onIconError, true);
+
 			els.forEach((el) => {
 				el.removeEventListener("focusin", onFocusIn);
 				el.removeEventListener("focusout", onFocusOut);
@@ -282,12 +424,16 @@
 	// "search" tetap diizinkan supaya pencarian berfungsi.
 	function fileManagerInit(api: any) {
 		api.intercept("set-mode", ({ mode }: any) => {
-			if (mode === "cards" || mode === "panels") return false;
+			if (mode === "cards" || mode === "panels") {
+				// ganti ke table, lalu blokir permintaan aslinya
+				queueMicrotask(() => api.exec("set-mode", { mode: "table" }));
+				return false;
+			}
 		});
 	}
 </script>
 
-<div class="block xl:flex gap-8">
+<div class="block flex flex-col xl:flex-row gap-8">
 	<div class="flex-1 min-w-0">
 		<div class="block">
 			<Accordion.Root
@@ -670,17 +816,23 @@
 						File manager
 					</Accordion.Trigger>
 					<Accordion.Content class="px-1">
-						<div class="mt-4 overflow-visible">
-							<Willow>
-								<div class="fm-host">
-									<Filemanager
-										data={filesData}
-										mode={"table"}
-										init={fileManagerInit}
-									/>
+						<Card.Root class="rounded-md mt-4 overflow-visible">
+							<Card.Content class="overflow-visible px-5">
+								<div class="w-full">
+									<div class="fm-host" bind:this={hostEl}>
+										<Locale {words}>
+											<Filemanager
+												data={filesData}
+												mode={"table"}
+												init={fileManagerInit}
+												{icons}
+												activePanel={0}
+											/>
+										</Locale>
+									</div>
 								</div>
-							</Willow>
-						</div>
+							</Card.Content>
+						</Card.Root>
 					</Accordion.Content>
 				</Accordion.Item>
 				<!-- /.files -->
@@ -688,7 +840,7 @@
 		</div>
 	</div>
 
-	<div class="flex-none pt-8 xl:pt-0">
+	<div class="flex-none pt-2 xl:pt-0">
 		<div class="w-full xl:w-[320px] sticky top-10 h-fit">
 			<Card.Root class="rounded-md">
 				<Card.Content>
