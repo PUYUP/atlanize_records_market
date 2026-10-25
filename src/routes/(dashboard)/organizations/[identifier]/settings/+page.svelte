@@ -21,7 +21,7 @@
 </script>
 
 <div class="block p-6">
-    <div class="max-w-lg">
+    <div class="max-w-2xl">
         <form>
             <Field.Field class="gap-2 mb-5">
                 <Field.Label for="inline-start-input">
