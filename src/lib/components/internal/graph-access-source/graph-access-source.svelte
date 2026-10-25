@@ -138,7 +138,9 @@
 
 <div class="flex items-center gap-2">
     <div class="grid flex-1 gap-1 text-center">
-        <Card.Title class="mb-3 text-left">Logs accessed by source</Card.Title>
+        <Card.Title class="mb-3 text-left">
+            Records accessed by source
+        </Card.Title>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             <div class="flex flex-col gap-1">
                 <div class="text-2xl font-bold text-left">3.459</div>

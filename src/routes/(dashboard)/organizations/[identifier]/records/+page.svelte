@@ -6,6 +6,7 @@
     import { Badge } from "#lib/components/ui/badge/index.js";
     import { StickyNotePlus, UserCog } from "@lucide/svelte";
     import { ChevronsUpDown, UserPlus } from "lucide-svelte";
+    import { RecordList } from "#lib/components/internal/record-list/index.ts";
 </script>
 
 <div class="block p-6">
@@ -27,6 +28,8 @@
             </Button>
         </div>
 
-        <div class="flex gap-4"></div>
+        <div class="flex gap-4">
+            <RecordList />
+        </div>
     </div>
 </div>
