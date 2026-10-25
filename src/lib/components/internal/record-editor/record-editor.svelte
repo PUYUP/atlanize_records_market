@@ -60,6 +60,7 @@
 	let keywords = $state<string[]>([]);
 	let inputEl = $state<HTMLInputElement | null>(null);
 	let wrapperEl = $state<HTMLDivElement | null>(null);
+	let openItems = $state<string[]>(["basic-information"]);
 
 	const resourceType = [
 		"Afghanistan",
@@ -269,6 +270,21 @@
 	// listen file manager
 	function onAddFolderHandler() {}
 	function onAddFileHandler() {}
+
+	function onAccordionChange(next: string[]) {
+		// cari item yang baru dibuka (bukan yang ditutup)
+		const added = next.find((v) => !openItems.includes(v));
+		openItems = next;
+		if (!added) return;
+
+		// tunggu animasi buka selesai supaya tinggi akhirnya sudah benar
+		setTimeout(() => {
+			document.getElementById(`acc-${added}`)?.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
+		}, 10);
+	}
 </script>
 
 <div class="block flex flex-col xl:flex-row gap-8">
@@ -277,9 +293,14 @@
 			<Accordion.Root
 				class="record-accordion gap-4"
 				type="multiple"
-				value={["basic-information"]}
+				value={openItems}
+				onValueChange={onAccordionChange}
 			>
-				<Accordion.Item value="basic-information" class="!border-b-0">
+				<Accordion.Item
+					value="basic-information"
+					id="acc-basic-information"
+					class="!border-b-0"
+				>
 					<Accordion.Trigger class="cursor-pointer">
 						Basic information
 					</Accordion.Trigger>
@@ -407,6 +428,7 @@
 
 				<Accordion.Item
 					value="authors-contributors"
+					id="acc-authors-contributors"
 					class="!border-b-0"
 				>
 					<Accordion.Trigger class="cursor-pointer">
@@ -470,7 +492,11 @@
 				</Accordion.Item>
 				<!-- /.authors & contributors -->
 
-				<Accordion.Item value="research-content" class="!border-b-0">
+				<Accordion.Item
+					value="research-content"
+					id="acc-research-content"
+					class="!border-b-0"
+				>
 					<Accordion.Trigger class="cursor-pointer">
 						Contents
 					</Accordion.Trigger>
@@ -649,7 +675,11 @@
 				</Accordion.Item>
 				<!-- /.research contents -->
 
-				<Accordion.Item value="files" class="!border-b-0">
+				<Accordion.Item
+					value="files"
+					id="acc-files"
+					class="!border-b-0"
+				>
 					<Accordion.Trigger class="cursor-pointer">
 						File manager
 					</Accordion.Trigger>
