@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Badge } from "#lib/components/ui/badge/index.js";
     import Button from "#lib/components/ui/button/button.svelte";
-    import { ShoppingCartPlus } from "@lucide/svelte";
+    import { FolderBookmark, ShoppingCartPlus } from "@lucide/svelte";
 </script>
 
 <div class="record-item py-4 pt-6 w-full">
@@ -22,6 +22,11 @@
         <Button variant="ghost" size="sm" color="primary">
             <ShoppingCartPlus />
             <span>Add to cart</span>
+        </Button>
+
+        <Button variant="ghost" size="sm" color="primary">
+            <FolderBookmark />
+            <span>Save</span>
         </Button>
     </div>
 </div>

@@ -11,9 +11,9 @@
         <h1 class="block text-lg font-bold">New Organization</h1>
     </div>
 
-    <div class="block">
+    <div class="block max-w-2xl">
         <form>
-            <Field.Field class="max-w-md gap-2 mb-4">
+            <Field.Field class="gap-2 mb-4">
                 <Field.Label for="inline-start-input">
                     Organization name <span class="text-red-500">*</span>
                 </Field.Label>
@@ -28,7 +28,7 @@
                 </InputGroup.Root>
             </Field.Field>
 
-            <Field.Field class="max-w-md gap-2 mb-4">
+            <Field.Field class="gap-2 mb-4">
                 <Field.Label for="inline-start-input">
                     Organization identifier <span class="text-red-500">*</span>
                 </Field.Label>
