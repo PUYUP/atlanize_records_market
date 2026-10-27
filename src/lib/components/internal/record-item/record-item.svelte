@@ -17,7 +17,7 @@
     </h3>
 
     <div class="mt-2 flex gap-2 items-center">
-        <div class="font-bold text-primary">$100.20</div>
+        <div class="font-bold text-primary bg-neutral-100 rounded-lg px-2 py-0.5 shadow">$100.20</div>
 
         <Button variant="ghost" size="sm" color="primary">
             <ShoppingCartPlus />

@@ -22,7 +22,7 @@
                 </Tabs.List>
             </Tabs.Root>
 
-            <Button variant="outline" class="ml-auto" href="records-new">
+            <Button variant="outline" class="ml-auto" href="/records-editor/XC-9992252">
                 <StickyNotePlus />
                 Add Records
             </Button>

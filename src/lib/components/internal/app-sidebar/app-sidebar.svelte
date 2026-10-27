@@ -52,12 +52,12 @@
             url: "/discover",
         },
         {
-            title: "Records",
+            title: "My Records",
             icon: FileText,
             items: [
-                { title: "All", url: "/logs" },
-                { title: "Add New", url: "/report/new" },
-                { title: "Drafts", url: "/report/drafts" },
+                { title: "Add New", url: "/records-editor" },
+                { title: "Published", url: "/records/published" },
+                { title: "Drafts", url: "/records/draft" },
             ],
         },
         {
