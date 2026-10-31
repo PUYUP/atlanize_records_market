@@ -37,7 +37,7 @@
     <div class="block w-10">
         <a
             href="/records/1"
-            class="h-full bg-blue-50 hover:bg-blue-100 flex items-center justify-center"
+            class="h-full bg-blue-50 hover:bg-blue-100 flex items-center justify-center rounded-md shadow"
         >
             <ChevronRight class='text-primary' />
         </a>
