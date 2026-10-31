@@ -60,7 +60,7 @@
 	let keywords = $state<string[]>([]);
 	let inputEl = $state<HTMLInputElement | null>(null);
 	let wrapperEl = $state<HTMLDivElement | null>(null);
-	let openItems = $state<string[]>(["basic-information"]);
+	let openItems = $state<string[]>(["overview"]);
 
 	const resourceType = [
 		"Afghanistan",
@@ -287,7 +287,7 @@
 	}
 </script>
 
-<div class="block flex flex-col xl:flex-row gap-8">
+<div class="block flex flex-col lg:flex-row gap-8">
 	<div class="flex-1 min-w-0">
 		<div class="block">
 			<Accordion.Root
@@ -297,12 +297,12 @@
 				onValueChange={onAccordionChange}
 			>
 				<Accordion.Item
-					value="basic-information"
-					id="acc-basic-information"
+					value="overview"
+					id="acc-overview"
 					class="!border-b-0"
 				>
 					<Accordion.Trigger class="cursor-pointer">
-						Basic information
+						Overview
 					</Accordion.Trigger>
 					<Accordion.Content class="px-1">
 						<Card.Root class="rounded-md mt-4 overflow-visible">
@@ -383,7 +383,7 @@
 									<Field.Field class="gap-2">
 										<Field.Label for="inline-start-input">
 											<TagsIcon class="size-4" />
-											Keywords and subjects
+											Keywords
 											<span class="text-red-500">*</span>
 										</Field.Label>
 
@@ -424,15 +424,15 @@
 						</Card.Root>
 					</Accordion.Content>
 				</Accordion.Item>
-				<!-- /.basic information -->
+				<!-- /.overview -->
 
 				<Accordion.Item
-					value="authors-contributors"
-					id="acc-authors-contributors"
+					value="authors"
+					id="acc-authors"
 					class="!border-b-0"
 				>
 					<Accordion.Trigger class="cursor-pointer">
-						Authors & contributors
+						Authors
 					</Accordion.Trigger>
 					<Accordion.Content class="px-1">
 						<Card.Root class="rounded-md mt-4 overflow-visible">
@@ -490,7 +490,7 @@
 						</Card.Root>
 					</Accordion.Content>
 				</Accordion.Item>
-				<!-- /.authors & contributors -->
+				<!-- /.authors -->
 
 				<Accordion.Item
 					value="research-content"
@@ -681,7 +681,7 @@
 					class="!border-b-0"
 				>
 					<Accordion.Trigger class="cursor-pointer">
-						File manager
+						Files
 					</Accordion.Trigger>
 					<Accordion.Content class="px-1">
 						<Card.Root
@@ -701,8 +701,8 @@
 		</div>
 	</div>
 
-	<div class="flex-none pt-2 xl:pt-0">
-		<div class="w-full xl:w-[320px] sticky top-10 h-fit">
+	<div class="flex-none pt-2 lg:pt-0">
+		<div class="w-full lg:w-[300px] sticky top-10 h-fit">
 			<Card.Root class="rounded-md">
 				<Card.Content>
 					<Field.FieldGroup class="gap-4 mb-2">

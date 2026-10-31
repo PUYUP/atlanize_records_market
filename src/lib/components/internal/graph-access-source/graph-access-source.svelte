@@ -6,9 +6,8 @@
     import * as Card from "#lib/components/ui/card/index.js";
     import * as Chart from "#lib/components/ui/chart/index.js";
     import * as Select from "#lib/components/ui/select/index.js";
-    import { Bot, UserSearch } from "lucide-svelte";
+    import { UserSearch } from "lucide-svelte";
     import { CpuAi } from "@lucide/svelte";
-    import Separator from "#lib/components/ui/separator/separator.svelte";
 
     const chartData = [
         { date: new Date("2024-04-01"), mcp: 222, direct: 150 },

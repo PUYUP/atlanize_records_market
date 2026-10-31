@@ -56,8 +56,8 @@
             icon: FileText,
             items: [
                 { title: "Add New", url: "/records-editor" },
-                { title: "Published", url: "/records/published" },
-                { title: "Drafts", url: "/records/draft" },
+                { title: "Published", url: "/records?status=published" },
+                { title: "Drafts", url: "/records?status=draft" },
             ],
         },
         {
@@ -84,15 +84,19 @@
     let selected = $state<Organization>(organizations[0]);
 
     // Aktif jika path sama persis atau halaman turunannya (/report/123 -> /report)
+    // Updated to ignore query parameters for proper menu activation
     function isActive(url?: string) {
         if (!url) return false;
         const path = page.url.pathname;
-        return path === url || path.startsWith(url + "/");
+        const baseUrl = url.split("?")[0]; // strip query string
+        return path === baseUrl || path.startsWith(baseUrl + "/");
     }
 
-    // Aktif hanya jika path sama persis (untuk sub-menu)
+    // Aktif hanya jika path dan query string sama persis (untuk sub-menu)
     function isExact(url?: string) {
-        return !!url && page.url.pathname === url;
+        if (!url) return false;
+        const current = page.url.pathname + page.url.search; // include query string
+        return current === url;
     }
 </script>
 

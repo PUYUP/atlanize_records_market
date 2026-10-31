@@ -2,10 +2,14 @@
     import * as InputGroup from "#lib/components/ui/input-group/index.js";
     import { RecordList } from "#lib/components/internal/record-list/index.ts";
     import { Search } from "lucide-svelte";
-    
-    let { params }: { params: { status: string } } = $props();
-    let currentStatus = $derived(params.status);
-    let pageTitle = $derived(currentStatus === "published" ? "Published Records" : "Draft Records");
+    import { page } from "$app/state";
+
+    let currentStatus = $derived(page.url.searchParams.get("status") || "draft");
+    let pageTitle = $derived(
+        currentStatus === "published"
+            ? "Published Records"
+            : "Draft Records",
+    );
 </script>
 
 <div class="p-6">
